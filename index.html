@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Rajesh Badam | Full-Stack Developer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #0f172a;
+      --bg-alt: #020617;
+      --card: #111827;
+      --accent: #38bdf8;
+      --accent-soft: rgba(56, 189, 248, 0.1);
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --border: #1f2937;
+      --shadow: 0 18px 40px rgba(15, 23, 42, 0.7);
+      --radius-xl: 1.5rem;
+      --radius-lg: 1rem;
+    }
+
+    * {
+      box-sizing: border-box;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #1e293b 0, #020617 55%);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(20px);
+      background: linear-gradient(to bottom, rgba(15, 23, 42, 0.95), rgba(15, 23, 42, 0.7));
+      border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+    }
+
+    .nav {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0.75rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-left span {
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    .nav-right a {
+      margin-left: 1.25rem;
+      font-size: 0.9rem;
+      color: var(--muted);
+      position: relative;
+    }
+    .nav-right a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -0.25rem;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, #22d3ee, #38bdf8, #0ea5e9);
+      transition: width 0.18s ease-out;
+    }
+    .nav-right a:hover {
+      color: var(--text);
+    }
+    .nav-right a:hover::after {
+      width: 100%;
+    }
+
+    .hero {
+      max-width: 1100px;
+      margin: 2rem auto 1rem;
+      padding: 2rem 1.5rem 0;
+      display: grid;
+      grid-template-columns: minmax(0, 2fr) minmax(0, 1.2fr);
+      gap: 2rem;
+      align-items: center;
+    }
+
+    @media (max-width: 800px) {
+      .hero {
+        grid-template-columns: minmax(0, 1fr);
+        padding-top: 1.5rem;
+      }
+    }
+
+    .hero-main {
+      background: linear-gradient(135deg, rgba(15, 23, 42, 0.98), rgba(15, 23, 42, 0.97));
+      border-radius: var(--radius-xl);
+      padding: 1.75rem 2rem;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(56, 189, 248, 0.18);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-main::before {
+      content: "";
+      position: absolute;
+      inset: -1px;
+      background: radial-gradient(circle at top left, rgba(56, 189, 248, 0.18), transparent 60%);
+      opacity: 0.9;
+      mix-blend-mode: screen;
+      pointer-events: none;
+    }
+
+    .hero-pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.15rem 0.6rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      font-size: 0.75rem;
+      color: var(--muted);
+      background: radial-gradient(circle at top left, rgba(56, 189, 248, 0.1), rgba(15, 23, 42, 0.9));
+      margin-bottom: 0.75rem;
+    }
+
+    .hero-pill span {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: #22c55e;
+      margin-right: 0.4rem;
+      box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.25);
+    }
+
+    .hero h1 {
+      margin: 0 0 0.4rem;
+      font-size: clamp(2.1rem, 3vw, 2.6rem);
+      letter-spacing: 0.03em;
+    }
+
+    .hero-title-span {
+      font-size: 1rem;
+      color: var(--muted);
+      margin-bottom: 1rem;
+    }
+
+    .hero-summary {
+      font-size: 0.98rem;
+      color: var(--muted);
+      max-width: 40rem;
+    }
+
+    .hero-summary strong {
+      color: var(--text);
+    }
+
+    .hero-actions {
+      margin-top: 1.4rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      align-items: center;
+    }
+
+    .btn-primary,
+    .btn-ghost {
+      border-radius: 999px;
+      padding: 0.55rem 1.3rem;
+      font-size: 0.9rem;
+      border: 1px solid transparent;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      cursor: pointer;
+      text-decoration: none;
+      transition: transform 0.12s ease-out, box-shadow 0.12s ease-out, background 0.12s ease-out, border-color 0.12s ease-out;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #22d3ee, #0ea5e9);
+      border-color: rgba(8, 47, 73, 0.6);
+      color: #0b1220;
+      font-weight: 600;
+      box-shadow: 0 14px 35px rgba(15, 23, 42, 0.9);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 20px 45px rgba(15, 23, 42, 1);
+      text-decoration: none;
+    }
+
+    .btn-ghost {
+      background: rgba(15, 23, 42, 0.7);
+      border-color: rgba(148, 163, 184, 0.5);
+      color: var(--muted);
+    }
+
+    .btn-ghost:hover {
+      background: rgba(15, 23, 42, 0.96);
+      border-color: rgba(248, 250, 252, 0.3);
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .hero-tags {
+      margin-top: 1.3rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      font-size: 0.78rem;
+    }
+
+    .hero-tag {
+      padding: 0.2rem 0.7rem;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      color: var(--muted);
+    }
+
+    .hero-aside {
+      display: flex;
+      justify-content: center;
+    }
+
+    .hero-card {
+      background: radial-gradient(circle at top, #1f2937, #020617);
+      border-radius: var(--radius-xl);
+      border: 1px solid rgba(148, 163, 184, 0.3);
+      box-shadow: var(--shadow);
+      width: 100%;
+      max-width: 320px;
+      padding: 1.5rem 1.4rem;
+      position: relative;
+      overflow: hidden;
+      text-align: left;
+    }
+
+    .avatar {
+      width: 88px;
+      height: 88px;
+      border-radius: 999px;
+      border: 2px solid rgba(148, 163, 184, 0.7);
+      object-fit: cover;
+      display: block;
+      margin-bottom: 0.75rem;
+    }
+
+    .hero-card h2 {
+      margin: 0;
+      font-size: 1.25rem;
+    }
+    .hero-card h3 {
+      margin: 0.1rem 0 0.8rem;
+      font-size: 0.9rem;
+      color: var(--muted);
+      font-weight: 400;
+    }
+
+    .hero-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      margin-bottom: 0.9rem;
+      font-size: 0.8rem;
+    }
+
+    .hero-links a {
+      padding: 0.25rem 0.65rem;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.6);
+    }
+
+    .hero-meta {
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 1rem 1.5rem 2.5rem;
+    }
+
+    section {
+      margin-top: 2.2rem;
+      padding: 1.6rem 1.4rem 1.5rem;
+      background: radial-gradient(circle at top left, rgba(30, 64, 175, 0.32), rgba(15, 23, 42, 1));
+      border-radius: var(--radius-xl);
+      border: 1px solid rgba(15, 23, 42, 0.8);
+      box-shadow: 0 18px 45px rgba(15, 23, 42, 0.8);
+    }
+
+    section:nth-of-type(even) {
+      background: radial-gradient(circle at top right, rgba(8, 47, 73, 0.4), rgba(15, 23, 42, 1));
+    }
+
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 0.75rem;
+      margin-bottom: 1.1rem;
+    }
+
+    .section-header h2 {
+      margin: 0;
+      font-size: 1.25rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .section-header span {
+      font-size: 0.78rem;
+      color: var(--muted);
+      opacity: 0.9;
+    }
+
+    .experience-list,
+    .edu-list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 1.1rem;
+    }
+
+    .experience-item,
+    .edu-item {
+      padding: 1rem 1rem 0.9rem;
+      border-radius: var(--radius-lg);
+      background: rgba(15, 23, 42, 0.92);
+      border: 1px solid rgba(30, 64, 175, 0.5);
+    }
+
+    .item-header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 0.5rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .item-title {
+      font-weight: 600;
+      font-size: 0.98rem;
+    }
+
+    .item-sub {
+      font-size: 0.86rem;
+      color: var(--muted);
+    }
+
+    .item-tags {
+      margin: 0.45rem 0 0.55rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.3rem;
+      font-size: 0.75rem;
+    }
+
+    .item-tag {
+      padding: 0.15rem 0.6rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      color: var(--muted);
+      background: rgba(15, 23, 42, 0.95);
+    }
+
+    .item-points {
+      margin: 0;
+      padding-left: 1.1rem;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      font-size: 0.9rem;
+    }
+
+    .skills-category {
+      padding: 0.9rem 1rem;
+      border-radius: var(--radius-lg);
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.5);
+    }
+
+    .skills-category h3 {
+      margin: 0 0 0.4rem;
+      font-size: 0.95rem;
+      color: var(--text);
+    }
+
+    .pill-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      margin-top: 0.35rem;
+    }
+
+    .pill-list span {
+      padding: 0.15rem 0.55rem;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    .contact-body {
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      gap: 0.75rem;
+      margin-top: 0.75rem;
+    }
+
+    .contact-item {
+      padding: 0.65rem 0.75rem;
+      border-radius: var(--radius-lg);
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px dashed rgba(148, 163, 184, 0.6);
+      font-size: 0.85rem;
+    }
+
+    .contact-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      margin-bottom: 0.15rem;
+    }
+
+    footer {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 1.5rem 1.5rem 2rem;
+      font-size: 0.8rem;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+      gap: 0.75rem;
+      border-top: 1px solid rgba(30, 64, 175, 0.6);
+      margin-top: 1.5rem;
+    }
+
+    @media (max-width: 640px) {
+      footer {
+        flex-direction: column;
+      }
+      section {
+        padding: 1.4rem 1.1rem 1.3rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="nav">
+      <div class="nav-left">
+        <span>RAJESH BADAM</span>
+      </div>
+      <nav class="nav-right">
+        <a href="#about">About</a>
+        <a href="#experience">Experience</a>
+        <a href="#skills">Skills</a>
+        <a href="#education">Education</a>
+        <a href="#contact">Contact</a>
+        <a href="#resume">Resume</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="hero" id="about">
+    <div class="hero-main">
+      <div class="hero-pill">
+        <span></span>
+        Open to Full-Stack Developer roles
+      </div>
+      <h1>Hi, I'm Rajesh Badam</h1>
+      <div class="hero-title-span">Full-stack developer</div>
+      <p class="hero-summary">
+        <strong>Full-stack developer with experience in backend and data-driven systems.</strong>
+        I’ve built and optimized production applications across government, regulatory, and gaming domains using
+        Java, .NET, React, Oracle, and cloud technologies. My work includes database optimization, microservices,
+        and near real-time data pipelines that improve performance and user experience.
+      </p>
+
+      <div class="hero-actions">
+        <a class="btn-primary" href="#contact">Contact Me</a>
+        <a class="btn-ghost" href="#resume">View Resume</a>
+        <a class="btn-ghost" href="https://github.com/Rajesh981998" target="_blank" rel="noopener">GitHub</a>
+        <a class="btn-ghost" href="https://linkedin.com/in/rajesh-reddy-badam" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+
+      <div class="hero-tags">
+        <span class="hero-tag">Full-Stack</span>
+        <span class="hero-tag">Java</span>
+        <span class="hero-tag">.NET</span>
+        <span class="hero-tag">React</span>
+        <span class="hero-tag">PL/SQL</span>
+        <span class="hero-tag">Oracle</span>
+        <span class="hero-tag">REST APIs</span>
+        <span class="hero-tag">Kafka</span>
+      </div>
+    </div>
+
+    <aside class="hero-aside">
+      <div class="hero-card">
+        <!-- Your headshot -->
+        <img src="profile_pic.jpg" alt="Profile picture of Rajesh Badam" class="avatar" />
+        <h2>Rajesh Badam</h2>
+        <h3>Phoenix, AZ · Full-stack developer</h3>
+        <div class="hero-links">
+          <a href="mailto:rbadam@asu.edu">Email</a>
+          <a href="https://linkedin.com/in/rajesh-reddy-badam" target="_blank" rel="noopener">LinkedIn</a>
+          <a href="https://github.com/Rajesh981998" target="_blank" rel="noopener">GitHub</a>
+        </div>
+        <div class="hero-meta">
+          Currently working on Oracle APEX &amp; PL/SQL applications at the Arizona Department of Environmental Quality,
+          focusing on performance, migration, and system reliability.
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <main>
+    <!-- Experience -->
+    <section id="experience">
+      <div class="section-header">
+        <h2>Experience</h2>
+        <span>Professional roles and impact</span>
+      </div>
+      <ul class="experience-list">
+        <li class="experience-item">
+          <div class="item-header">
+            <div>
+              <div class="item-title">Software Developer · Arizona Department of Environmental Quality</div>
+              <div class="item-sub">Jun 2023 – Present · Phoenix, AZ</div>
+            </div>
+            <div class="item-sub">Oracle APEX · PL/SQL · Performance Optimization</div>
+          </div>
+          <div class="item-tags">
+            <span class="item-tag">Oracle APEX</span>
+            <span class="item-tag">PL/SQL</span>
+            <span class="item-tag">Performance Tuning</span>
+            <span class="item-tag">Database Design</span>
+          </div>
+          <ul class="item-points">
+            <li>Optimized Oracle database performance with efficient stored procedures, tables, and collections, reducing context switching and improving query execution speed.</li>
+            <li>Migrated legacy Oracle Forms applications to Oracle APEX, improving user satisfaction and modernizing the UI.</li>
+            <li>Designed indexed tables and views that reduced query response time by ~20% and simplified complex data workflows.</li>
+            <li>Leveraged bulk collections, records, object types, and dynamic SQL to achieve ~30% performance gains across PL/SQL objects.</li>
+          </ul>
+        </li>
+
+        <li class="experience-item">
+          <div class="item-header">
+            <div>
+              <div class="item-title">Software Engineer Intern · Regology, Inc.</div>
+              <div class="item-sub">May 2022 – Aug 2022 · Palo Alto, CA</div>
+            </div>
+            <div class="item-sub">REST APIs · .NET · Microservices</div>
+          </div>
+          <div class="item-tags">
+            <span class="item-tag">.NET</span>
+            <span class="item-tag">REST APIs</span>
+            <span class="item-tag">Multithreading</span>
+            <span class="item-tag">BLE</span>
+          </div>
+          <ul class="item-points">
+            <li>Developed REST APIs using multithreading to integrate with external data sources, cutting processing time by ~50%.</li>
+            <li>Implemented microservices in .NET to communicate with medical devices via BLE and collect real-time patient vitals in &lt; 3 seconds.</li>
+          </ul>
+        </li>
+
+        <li class="experience-item">
+          <div class="item-header">
+            <div>
+              <div class="item-title">Software Engineer · Tata Consultancy Services</div>
+              <div class="item-sub">Jul 2019 – Jun 2021 · India</div>
+            </div>
+            <div class="item-sub">React · .NET · Kafka · OAuth</div>
+          </div>
+          <div class="item-tags">
+            <span class="item-tag">React</span>
+            <span class="item-tag">.NET</span>
+            <span class="item-tag">SignalR</span>
+            <span class="item-tag">Kafka</span>
+            <span class="item-tag">OAuth</span>
+          </div>
+          <ul class="item-points">
+            <li>Developed a gaming B2C hybrid mobile application used by 20k+ users using React and .NET.</li>
+            <li>Built a BI dashboard in React that improved targeting for promotional campaigns and increased website traffic by ~10%.</li>
+            <li>Implemented OAuth-based authentication with route guards, reducing unauthorized access attempts by ~50%.</li>
+            <li>Integrated SignalR with React to enable real-time updates and improved accuracy of displayed data.</li>
+            <li>Designed and deployed a consumer API to ingest product data from an external source into Kafka, improving pipeline data accuracy by ~15%.</li>
+          </ul>
+        </li>
+
+        <li class="experience-item">
+          <div class="item-header">
+            <div>
+              <div class="item-title">Software Developer · Resolve Systems</div>
+              <div class="item-sub">Sep 2018 – May 2019 · India</div>
+            </div>
+            <div class="item-sub">Python · RabbitMQ · WebSockets</div>
+          </div>
+          <div class="item-tags">
+            <span class="item-tag">Python</span>
+            <span class="item-tag">RabbitMQ</span>
+            <span class="item-tag">WebSockets</span>
+          </div>
+          <ul class="item-points">
+            <li>Collaborated on a hybrid IT network device discovery and monitoring web app, cutting outage response times by ~40% with a real-time dashboard.</li>
+            <li>Automated device health monitoring via Python and networking SDKs, reducing manual checks by ~40%.</li>
+            <li>Implemented RabbitMQ-based request processing and optimized proprietary discovery libraries, reducing size by ~23% and improving algorithms.</li>
+          </ul>
+        </li>
+
+        <li class="experience-item">
+          <div class="item-header">
+            <div>
+              <div class="item-title">System Engineer Intern · FixStream Pvt Ltd</div>
+              <div class="item-sub">May 2018 – Aug 2018 · India</div>
+            </div>
+            <div class="item-sub">Linux · OSS Integration</div>
+          </div>
+          <ul class="item-points">
+            <li>Developed UI features for a Linux kernel-based enterprise communication product.</li>
+            <li>Upgraded and integrated OSS components such as OpenSSL and DHCP into product modules.</li>
+          </ul>
+        </li>
+      </ul>
+    </section>
+
+    <!-- Skills -->
+    <section id="skills">
+      <div class="section-header">
+        <h2>Skills</h2>
+        <span>Core technologies &amp; tools</span>
+      </div>
+      <div class="skills-grid">
+        <div class="skills-category">
+          <h3>Programming Languages</h3>
+          <div class="pill-list">
+            <span>Java</span>
+            <span>Python</span>
+            <span>PL/SQL</span>
+            <span>C++</span>
+            <span>C#</span>
+            <span>Shell / Bash</span>
+          </div>
+        </div>
+        <div class="skills-category">
+          <h3>Web &amp; Frameworks</h3>
+          <div class="pill-list">
+            <span>HTML</span>
+            <span>CSS</span>
+            <span>jQuery</span>
+            <span>.NET</span>
+            <span>Spring Framework</span>
+            <span>React</span>
+            <span>Angular</span>
+            <span>RESTful APIs</span>
+          </div>
+        </div>
+        <div class="skills-category">
+          <h3>Databases</h3>
+          <div class="pill-list">
+            <span>Oracle SQL</span>
+            <span>MySQL</span>
+            <span>MongoDB</span>
+            <span>NoSQL</span>
+            <span>PostgreSQL</span>
+          </div>
+        </div>
+        <div class="skills-category">
+          <h3>Tools &amp; Platforms</h3>
+          <div class="pill-list">
+            <span>Kafka</span>
+            <span>RabbitMQ</span>
+            <span>AWS</span>
+            <span>Git</span>
+            <span>SVN</span>
+            <span>Jira</span>
+            <span>Jenkins</span>
+            <span>Postman</span>
+            <span>OAuth</span>
+            <span>Firebase</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Education -->
+    <section id="education">
+      <div class="section-header">
+        <h2>Education</h2>
+        <span>Academic background</span>
+      </div>
+      <ul class="edu-list">
+        <li class="edu-item">
+          <div class="item-header">
+            <div>
+              <div class="item-title">M.S. in Computer Science</div>
+              <div class="item-sub">Arizona State University · Aug 2021 – May 2023</div>
+            </div>
+          </div>
+        </li>
+        <li class="edu-item">
+          <div class="item-header">
+            <div>
+              <div class="item-title">B.E. in Computer Science</div>
+              <div class="item-sub">GITAM University · Jun 2015 – May 2019</div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact">
+      <div class="section-header">
+        <h2>Contact</h2>
+        <span>Let’s get in touch</span>
+      </div>
+      <div class="contact-body">
+        I’m open to opportunities in full-stack, backend, and platform engineering roles where I can work on
+        scalable systems, data-driven applications, and performance-critical backends.
+        <div class="contact-grid">
+          <div class="contact-item">
+            <div class="contact-label">Email</div>
+            <a href="mailto:rbadam@asu.edu">rbadam@asu.edu</a>
+          </div>
+          <div class="contact-item">
+            <div class="contact-label">LinkedIn</div>
+            <a href="https://linkedin.com/in/rajesh-reddy-badam" target="_blank" rel="noopener">
+              linkedin.com/in/rajesh-reddy-badam
+            </a>
+          </div>
+          <div class="contact-item">
+            <div class="contact-label">GitHub</div>
+            <a href="https://github.com/Rajesh981998" target="_blank" rel="noopener">
+              github.com/Rajesh981998
+            </a>
+          </div>
+          <div class="contact-item">
+            <div class="contact-label">Location</div>
+            Phoenix, Arizona (open to relocation / remote)
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Resume -->
+    <section id="resume">
+      <div class="section-header">
+        <h2>Resume</h2>
+        <span>Downloadable PDF</span>
+      </div>
+      <p class="contact-body">
+        You can download my latest resume using the button below.
+      </p>
+      <!-- Make sure resume.pdf exists in the same repo -->
+      <a class="btn-primary" href="resume.pdf" target="_blank" rel="noopener">Download Resume</a>
+    </section>
+  </main>
+
+  <footer>
+    <div>© <span id="year"></span> Rajesh Badam. All rights reserved.</div>
+    <div>Built with HTML &amp; CSS, hosted on GitHub Pages.</div>
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
